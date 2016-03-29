@@ -270,7 +270,9 @@ object ParallelizedSGD extends Logging {
          * lossSum is computed using the weights from the previous iteration
          * and regVal is the regularization value computed in the previous iteration as well.
          */
-        stochasticLossHistory.append(lossSum / batchSize + regVal)
+        val stochasticLoss = lossSum / batchSize + regVal
+        stochasticLossHistory.append(stochasticLoss)
+        log.warn(s"stochastic loss at step${i}: ${stochasticLoss}")
         weights = avgWeights
         regVal = avgRegVal
 
