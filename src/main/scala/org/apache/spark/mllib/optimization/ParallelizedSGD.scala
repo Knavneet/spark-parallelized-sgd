@@ -243,19 +243,29 @@ object ParallelizedSGD extends Logging {
         .mapPartitions { iter =>
           var localStatus = updater.initStatus()
           var localWeights = bcWeights.value
+          var oldWeights = bcWeights.value
           var localRegVal = 0.0
           var localLossSum = 0.0
           var count: Long = 0L
           var j = 1
-          iter.foreach { case (label, data) =>
-            val (grad, loss) = gradient.compute(data, label, localWeights)
-            val updated = updater.compute(localWeights, grad, stepSize, j, regParam, localStatus)
-            localWeights = updated._1
-            localRegVal = updated._2
-            localStatus = updated._3
-            localLossSum += loss
-            count += 1L
-            j += 1
+          import scala.util.control.Breaks._
+          breakable {
+            iter.foreach { case (label, data) =>
+              val (grad, loss) = gradient.compute(data, label, localWeights)
+              val updated = updater.compute(localWeights, grad, stepSize, j, regParam, localStatus)
+              localWeights = updated._1
+              localRegVal = updated._2
+              localStatus = updated._3
+              localLossSum += loss
+              count += 1L
+              j += 1
+              if (isConverged(oldWeights, localWeights, convergenceTol)) {
+                break()
+              }
+              else {
+                oldWeights = localWeights
+              }
+            }
           }
           Iterator.single((localWeights, localRegVal, localLossSum, count))
         }.treeReduce{ case ((w1, rv1, ls1, c1), (w2, rv2, ls2, c2)) =>
