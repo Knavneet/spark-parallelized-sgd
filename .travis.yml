@@ -17,9 +17,9 @@ cache:
       - jdk: oraclejdk8
         scala: 2.11.7
         env: TEST_SPARK_VERSION="1.6.1"
-        script:
-          - sbt -Dspark.testVersion=$TEST_SPARK_VERSION ++$TRAVIS_SCALA_VERSION coverage test
-          - sbt ++$TRAVIS_SCALA_VERSION scalastyle
-        after_success:
-          - bash <(curl -s https://codecov.io/bash)
+script:
+  - sbt -Dspark.testVersion=$TEST_SPARK_VERSION ++$TRAVIS_SCALA_VERSION coverage test
+  - sbt ++$TRAVIS_SCALA_VERSION scalastyle
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
