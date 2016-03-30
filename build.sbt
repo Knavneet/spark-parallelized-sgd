@@ -1,14 +1,14 @@
 // Your sbt build file. Guides on how to write one can be found at
 // http://www.scala-sbt.org/0.13/docs/index.html
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.10.5"
 
 sparkVersion := "1.6.1"
 
 spName := "yu-iskw/spark-parallelized-sgd"
 
 // Don't forget to set the version
-version := "0.0.1"
+version := "0.0.2"
 
 // All Spark Packages need a license
 licenses := Seq("Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0"))
