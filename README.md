@@ -14,7 +14,7 @@ For example, Downpour SGD or Asyncronous SGD require a parameter server. Therefo
 ## Usage
 
 ```scala
-import org.apache.spark.mllib.optimization.ParallelizedSGD
+import org.apache.spark.mllib.optimization._
 
 val gradient = new LogisticGradient()
 val updater = new SimpleSGDUpdater()
