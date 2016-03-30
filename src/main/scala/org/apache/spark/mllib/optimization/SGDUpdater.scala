@@ -189,13 +189,9 @@ class SquaredL2SGDUpdater extends SGDUpdater {
   * Uses a step-size decreasing with the square root of the number of iterations.
   *
   * https://en.wikipedia.org/wiki/Stochastic_gradient_descent#AdaGrad
-  *
-  * @param eps epsilon
   */
 @DeveloperApi
-class AdaGradSGDUpdater(val eps: Double) extends SGDUpdater {
-  def this() = this(1e-8)
-
+class AdaGradSGDUpdatre extends SGDUpdater {
   override type Status = AdaGradUpdaterStatus
 
   override def initStatus(): Status = new Status()
@@ -209,7 +205,7 @@ class AdaGradSGDUpdater(val eps: Double) extends SGDUpdater {
     status: Status): (Vector, Double, Status) = {
     val updatedStatus = status.update(gradient)
     val accumSquaredGrad = updatedStatus.accumSquaredGradient.get
-    val g = gradient.toBreeze / (breeze.numerics.pow(accumSquaredGrad.toBreeze, 0.5) + this.eps)
+    val g = gradient.toBreeze / (breeze.numerics.pow(accumSquaredGrad.toBreeze + 1.0, 0.5))
 
     val thisIterStepSize = stepSize / math.sqrt(iter)
     val brzWeights: BV[Double] = weightsOld.toBreeze.toDenseVector
