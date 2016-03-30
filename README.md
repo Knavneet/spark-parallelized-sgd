@@ -1,6 +1,7 @@
 # Parallelized Stochastic Gradient Descent with Apache Spark
 
 [![License](http://img.shields.io/:license-Apache%202-red.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
+[![Build Status](https://travis-ci.org/yu-iskw/spark-parallelized-sgd.svg?branch=master)](https://travis-ci.org/yu-iskw/spark-parallelized-sgd)
 [![codecov.io](https://codecov.io/github/yu-iskw/spark-parallelized-sgd/coverage.svg?branch=master)](https://codecov.io/github/yu-iskw/spark-parallelized-sgd?branch=master)
 
 
