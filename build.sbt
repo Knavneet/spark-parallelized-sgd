@@ -3,9 +3,7 @@
 
 scalaVersion := "2.10.5"
 
-sparkVersion := "1.6.1"
-
-crossScalaVersions := Seq("2.10.5", "2.11.7")
+sparkVersion := "1.6.0"
 
 spName := "yu-iskw/spark-parallelized-sgd"
 
@@ -35,9 +33,6 @@ fork in Test := true
 javaOptions ++= Seq("-Xmx2G", "-XX:MaxPermSize=256m")
 
 libraryDependencies ++= Seq(
-  "junit" % "junit" % "4.12",
-  "com.h2database" % "h2" % "1.4.190",
-  "mysql" % "mysql-connector-java" % "5.1.38",
   "org.scalatest" %% "scalatest" % "2.1.5" % "test",
   "org.apache.spark" %% "spark-core" % testSparkVersion.value,
   "org.apache.spark" %% "spark-yarn" % testSparkVersion.value,
