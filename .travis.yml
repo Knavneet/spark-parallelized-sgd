@@ -6,10 +6,10 @@ cache:
   matrix:
     include:
       - jdk: openjdk7
-        scala: 2.10.5
+        scala: 2.10.4
         env: TEST_SPARK_VERSION="1.6.1"
       - jdk: oraclejdk7
-        scala: 2.10.5
+        scala: 2.10.4
         env: TEST_SPARK_VERSION="1.6.1"
       - jdk: openjdk8
         scala: 2.11.7

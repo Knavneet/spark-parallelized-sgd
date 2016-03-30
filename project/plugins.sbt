@@ -5,6 +5,6 @@ resolvers += "sonatype-releases" at "https://oss.sonatype.org/content/repositori
 
 addSbtPlugin("org.spark-packages" %% "sbt-spark-package" % "0.2.2")
 
-addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.8.0")
+addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.7.0")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.1.0")
