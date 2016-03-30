@@ -1,11 +1,11 @@
 // Your sbt build file. Guides on how to write one can be found at
 // http://www.scala-sbt.org/0.13/docs/index.html
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.10.5"
 
 sparkVersion := "1.6.1"
 
-crossScalaVersions := Seq("2.10.4", "2.11.7")
+crossScalaVersions := Seq("2.10.5", "2.11.7")
 
 spName := "yu-iskw/spark-parallelized-sgd"
 
