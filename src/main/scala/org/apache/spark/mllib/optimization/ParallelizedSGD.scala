@@ -238,7 +238,7 @@ object ParallelizedSGD extends Logging {
       val bcWeights = data.context.broadcast(weights)
       // Sample a subset (fraction miniBatchFraction) of the total data
       // compute and sum up the subgradients on this subset (this is one map-reduce)
-      val (avgWeights, avgRegVal, lossSum, batchSize) = data
+      val (weightsSum, regValSum, lossSum, batchSize) = data
         .sample(false, miniBatchFraction, 42 + i)
         .mapPartitions { iter =>
           var localStatus = updater.initStatus()
@@ -269,10 +269,7 @@ object ParallelizedSGD extends Logging {
           }
           Iterator.single((localWeights, localRegVal, localLossSum, count))
         }.treeReduce{ case ((w1, rv1, ls1, c1), (w2, rv2, ls2, c2)) =>
-          val avgWeights =
-            (w1.toBreeze * c1.toDouble + w2.toBreeze * c2.toDouble) / (c1 + c2).toDouble
-          val avgRegVal = (rv1 * c1.toDouble + rv2 * c2.toDouble) / (c1 + c2).toDouble
-          (Vectors.fromBreeze(avgWeights), avgRegVal, ls1 + ls2, c1 + c2)
+          (Vectors.fromBreeze(w1.toBreeze + w2.toBreeze), rv1 + rv2, ls1 + ls2, c1 + c2)
         }
 
       if (batchSize > 0) {
@@ -283,8 +280,8 @@ object ParallelizedSGD extends Logging {
         val stochasticLoss = lossSum / batchSize + regVal
         stochasticLossHistory.append(stochasticLoss)
         log.warn(s"stochastic loss at step${i}: ${stochasticLoss}")
-        weights = avgWeights
-        regVal = avgRegVal
+        weights = Vectors.fromBreeze(weightsSum.toBreeze / data.getNumPartitions.toDouble)
+        regVal = regValSum / data.getNumPartitions.toDouble
 
         previousWeights = currentWeights
         currentWeights = Some(weights)
