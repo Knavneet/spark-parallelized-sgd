@@ -253,7 +253,8 @@ object ParallelizedSGD extends Logging {
             iter.foreach { case (label, data) =>
               val (grad, loss) = gradient.compute(data, label, localWeights)
               val updated = updater.compute(localWeights, grad, stepSize, j, regParam, localStatus)
-              localWeights = updated._1
+              val momentum = localWeights.toBreeze - oldWeights.toBreeze
+              localWeights = Vectors.fromBreeze(updated._1.toBreeze + 0.9 * momentum)
               localRegVal = updated._2
               localStatus = updated._3
               localLossSum += loss
