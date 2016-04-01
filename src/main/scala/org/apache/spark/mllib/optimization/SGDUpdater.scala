@@ -191,7 +191,7 @@ class SquaredL2SGDUpdater extends SGDUpdater {
   * https://en.wikipedia.org/wiki/Stochastic_gradient_descent#AdaGrad
   */
 @DeveloperApi
-class AdaGradSGDUpdatre extends SGDUpdater {
+class AdaGradSGDUpdater extends SGDUpdater {
   override type Status = AdaGradUpdaterStatus
 
   override def initStatus(): Status = new Status()
